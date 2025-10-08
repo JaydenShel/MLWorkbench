@@ -1,31 +1,43 @@
-// frontend/eslint.config.js
+// eslint.config.js
 import js from '@eslint/js';
 import globals from 'globals';
-import reactHooks from 'eslint-plugin-react-hooks';
-import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
+import reactHooks from 'eslint-plugin-react-hooks';
 
 export default [
   { ignores: ['dist', 'node_modules'] },
+
+  js.configs.recommended,
+
+  ...tseslint.configs.recommended,
+
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-      globals: globals.browser,
       parser: tseslint.parser,
-      parserOptions: { project: false },
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        ecmaFeatures: { jsx: true }     // <-- important for .tsx
+      },
+      globals: {
+        ...globals.browser
+      }
     },
     plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+      'react-hooks': reactHooks
     },
     rules: {
-      ...js.configs.recommended.rules,
-      ...tseslint.configs.recommendedTypeChecked[0].rules,
-      ...reactHooks.configs.recommended.rules,
-      // Optional Vite rule
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-    },
+      ...reactHooks.configs.recommended.rules
+    }
   },
+
+  {
+    files: ['**/*.{test,spec}.{ts,tsx,js,jsx}', 'test/**/*.{ts,tsx,js,jsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.jest                   // <-- enable jest globals in tests
+      }
+    }
+  }
 ];
