@@ -2,10 +2,12 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 import uuid
 
+
 class Storage(ABC):
     @abstractmentod
     async def save_bytes(self, filename: str, data: bytes) -> tuple[str, int]:
         return (uri, size_bytes)
+
 
 class LocalStorage(Storage):
     def __init__(self, base_dir: str = "data"):

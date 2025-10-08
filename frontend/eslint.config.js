@@ -18,26 +18,26 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        ecmaFeatures: { jsx: true }     // <-- important for .tsx
+        ecmaFeatures: { jsx: true }, // <-- important for .tsx
       },
       globals: {
-        ...globals.browser
-      }
+        ...globals.browser,
+      },
     },
     plugins: {
-      'react-hooks': reactHooks
+      'react-hooks': reactHooks,
     },
     rules: {
-      ...reactHooks.configs.recommended.rules
-    }
+      ...reactHooks.configs.recommended.rules,
+    },
   },
 
   {
     files: ['**/*.{test,spec}.{ts,tsx,js,jsx}', 'test/**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
       globals: {
-        ...globals.jest                   // <-- enable jest globals in tests
-      }
-    }
-  }
+        ...globals.jest, // <-- enable jest globals in tests
+      },
+    },
+  },
 ];
