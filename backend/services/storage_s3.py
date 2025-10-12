@@ -5,8 +5,11 @@ import aioboto3
 from typing import Optional
 from .storage import Storage
 
+
 class S3Storage(Storage):
-    def __init__(self, bucket: str, prefix: Optional[str] = None, region: Optional[str] = None):
+    def __init__(
+        self, bucket: str, prefix: Optional[str] = None, region: Optional[str] = None
+    ):
         self.bucket = bucket
         self.prefix = prefix.strip("/") if prefix else None
         self.region = region

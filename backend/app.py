@@ -8,7 +8,7 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
-    openapi_url="/openapi.json"
+    openapi_url="/openapi.json",
 )
 
 # Add CORS middleware
@@ -30,7 +30,7 @@ def read_root():
         "message": "ML Directory API",
         "version": "1.0.0",
         "docs": "/docs",
-        "redoc": "/redoc"
+        "redoc": "/redoc",
     }
 
 
