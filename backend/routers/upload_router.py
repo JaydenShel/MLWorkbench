@@ -30,12 +30,21 @@ class ErrorResponse(BaseModel):
 
 def get_storage() -> Storage:
     """Dependency to get storage instance"""
-    # For local dev and testing, use LocalStorage:
-    from services.storage import LocalStorage
-
-    return LocalStorage(base_dir="data")
-    # For production with S3, use:
-    # return S3Storage(bucket="csv-storage-ml")
+    import os
+    from dotenv import load_dotenv
+    
+    # Load environment variables from .env file
+    load_dotenv()
+    
+    # Use environment variable to determine storage backend
+    storage_type = os.getenv("STORAGE_TYPE", "local")
+    print(f"Storage type: {storage_type}")
+    if storage_type == "s3":
+        return S3Storage(bucket="csv-storage-ml", region="us-east-1", prefix="datasets")
+    else:
+        # Default to local storage for development and testing
+        from services.storage import LocalStorage
+        return LocalStorage(base_dir="data")
 
 
 @router.post(
@@ -62,8 +71,8 @@ async def upload_csv(
     """
     Upload a CSV dataset file.
 
-    - **file**: CSV file to upload (required)
-    - **Returns**: Dataset metadata including ID, URI, size, columns, and row count
+    - File: CSV file to upload (required)
+    - Returns: Dataset metadata including ID, URI, size, columns, and row count
 
     The uploaded file will be:
     1. Validated to ensure it's a CSV file
@@ -77,13 +86,6 @@ async def upload_csv(
         )
 
     content = await file.read()
-
-    # Allow empty CSV files (just headers)
-    # if len(content) == 0:
-    #     raise HTTPException(
-    #         status_code=400,
-    #         detail="Uploaded file is empty"
-    #     )
 
     try:
         df = pd.read_csv(pdio.BytesIO(content))
