@@ -18,9 +18,19 @@ COPY . .
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
+ENV DATABASE_URL=postgresql://postgres:postgres@db:5432/mlworkbench
 
 # Expose FastAPI port
 EXPOSE 8000
 
-# Start FastAPI app
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+# Create startup script
+RUN echo '#!/bin/bash\n\
+echo "Waiting for database..."\n\
+sleep 10\n\
+echo "Initializing database..."\n\
+python init_db.py\n\
+echo "Starting FastAPI server..."\n\
+uvicorn app:app --host 0.0.0.0 --port 8000' > /app/start.sh && chmod +x /app/start.sh
+
+# Start with database initialization
+CMD ["/app/start.sh"]
