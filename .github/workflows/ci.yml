@@ -70,7 +70,7 @@ jobs:
         run: mkdir -p reports
 
       - name: Test (pytest → JUnit)
-        run: pytest --junitxml=reports/junit.xml
+        run: python -m pytest --junitxml=reports/junit.xml
 
       - name: Upload JUnit (backend)
         if: always()
