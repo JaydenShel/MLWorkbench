@@ -4,9 +4,10 @@ import uuid
 
 
 class Storage(ABC):
-    @abstractmentod
+    @abstractmethod
     async def save_bytes(self, filename: str, data: bytes) -> tuple[str, int]:
-        return (uri, size_bytes)
+        """Save binary data and return (uri, size_bytes)."""
+        pass
 
 
 class LocalStorage(Storage):
