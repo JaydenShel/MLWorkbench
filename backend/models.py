@@ -3,6 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 from db import Base
 
+
 class Dataset(Base):
     __tablename__ = "datasets"
 
@@ -13,6 +14,7 @@ class Dataset(Base):
     columns: Mapped[dict] = mapped_column(JSON)
     rows: Mapped[int] = mapped_column(Integer)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
 
 class ModelRun(Base):
     __tablename__ = "model_runs"
