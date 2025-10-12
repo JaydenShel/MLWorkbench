@@ -32,10 +32,10 @@ def get_storage() -> Storage:
     """Dependency to get storage instance"""
     import os
     from dotenv import load_dotenv
-    
+
     # Load environment variables from .env file
     load_dotenv()
-    
+
     # Use environment variable to determine storage backend
     storage_type = os.getenv("STORAGE_TYPE", "local")
     print(f"Storage type: {storage_type}")
@@ -44,6 +44,7 @@ def get_storage() -> Storage:
     else:
         # Default to local storage for development and testing
         from services.storage import LocalStorage
+
         return LocalStorage(base_dir="data")
 
 
