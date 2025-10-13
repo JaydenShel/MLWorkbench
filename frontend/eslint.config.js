@@ -1,4 +1,3 @@
-// eslint.config.js
 import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
@@ -17,27 +16,18 @@ export default [
       parser: tseslint.parser,
       parserOptions: {
         ecmaVersion: 'latest',
-        sourceType: 'module',
-        ecmaFeatures: { jsx: true }, // <-- important for .tsx
+        sourceType: 'module'
       },
       globals: {
         ...globals.browser,
-      },
+        jest: true
+      }
     },
     plugins: {
-      'react-hooks': reactHooks,
+      'react-hooks': reactHooks
     },
     rules: {
-      ...reactHooks.configs.recommended.rules,
-    },
-  },
-
-  {
-    files: ['**/*.{test,spec}.{ts,tsx,js,jsx}', 'test/**/*.{ts,tsx,js,jsx}'],
-    languageOptions: {
-      globals: {
-        ...globals.jest, // <-- enable jest globals in tests
-      },
-    },
-  },
+      ...reactHooks.configs.recommended.rules
+    }
+  }
 ];

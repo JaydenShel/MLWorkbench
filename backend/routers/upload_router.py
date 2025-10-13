@@ -91,7 +91,7 @@ async def upload_csv(
                 filename=file.filename,
                 uri=uri,
                 size_bytes=size_bytes,
-                columns={"columns": columns},  # Convert list to JSON object
+                columns={"columns": columns},
                 rows=row_count,
             )
             db.add(dataset)

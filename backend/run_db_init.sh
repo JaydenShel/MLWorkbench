@@ -1,4 +1,3 @@
-#!/bin/bash
 # Script to manually initialize the database
 
 echo "Initializing database tables..."
