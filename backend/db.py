@@ -5,9 +5,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 load_dotenv()
-DATABASE_URL = os.getenv(
-    "DATABASE_URL", "postgresql://postgres:postgres@db:5432/mlworkbench"
-)
+
+# Use SQLite for local development, PostgreSQL for Docker
+# For Docker: set DATABASE_URL=postgresql://postgres:postgres@db:5432/mlworkbench
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./mlworkbench.db")
 
 # Create SQLAlchemy engine
 engine = create_engine(
