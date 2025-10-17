@@ -26,6 +26,12 @@ class TrainRequest(BaseModel):
     target: str
     features: Optional[List[str]] = None
     test_size: Optional[float] = 0.2
+    
+    def __init__(self, **data):
+        super().__init__(**data)
+        # Validate test_size
+        if self.test_size is not None and (self.test_size <= 0 or self.test_size >= 1):
+            raise ValueError("test_size must be between 0 and 1")
 
 
 class TrainResponse(BaseModel):
@@ -98,13 +104,16 @@ async def train_linear_regression(
         if request.target not in df.columns:
             raise HTTPException(status_code=400, detail=f"Target column '{request.target}' not found in dataset")
         
-        # 4) Prepare data
-        X = df[features].dropna()
-        y = df.loc[X.index, request.target]
+        # 4) Prepare data - ensure we have valid data
+        # First, get all rows that have valid data for both features and target
+        valid_rows = df[features + [request.target]].dropna()
         
-        if len(X) == 0:
+        if len(valid_rows) == 0:
             raise HTTPException(status_code=400, detail="No valid data for training")
-
+        
+        X = valid_rows[features]
+        y = valid_rows[request.target]
+        
         # 5) Split, train, evaluate
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=request.test_size, random_state=42
@@ -151,6 +160,13 @@ async def train_linear_regression(
             artifact_uri=artifact_uri
         )
         
+    except HTTPException:
+        # Re-raise HTTP exceptions as-is
+        raise
     except Exception as e:
-        db.rollback()
+        # Only rollback if we have a database session
+        try:
+            db.rollback()
+        except:
+            pass  # Ignore rollback errors
         raise HTTPException(status_code=500, detail=f"Training failed: {str(e)}")
