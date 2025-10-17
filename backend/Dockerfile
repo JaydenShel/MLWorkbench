@@ -28,7 +28,7 @@ RUN echo '#!/bin/bash\n\
 echo "Waiting for database..."\n\
 sleep 10\n\
 echo "Initializing database..."\n\
-python init_db.py\n\
+python db/init_db.py\n\
 echo "Starting FastAPI server..."\n\
 uvicorn app:app --host 0.0.0.0 --port 8000' > /app/start.sh && chmod +x /app/start.sh
 

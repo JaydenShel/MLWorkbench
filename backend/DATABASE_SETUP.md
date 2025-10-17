@@ -11,10 +11,10 @@ docker-compose up -d
 ### 2. Initialize Database Tables
 ```bash
 # Option A: Run inside Docker container
-docker-compose exec backend python setup_db.py
+docker-compose exec backend python db/setup_db.py
 
 # Option B: Run locally (if you have PostgreSQL running)
-python setup_db.py
+python db/setup_db.py
 ```
 
 ### 3. Verify Tables Created
@@ -44,7 +44,7 @@ psql -h localhost -p 5432 -U postgres -d mlworkbench
 ### Tables Not Created?
 1. Make sure Docker containers are running: `docker-compose ps`
 2. Check database logs: `docker-compose logs db`
-3. Try running the setup script: `python setup_db.py`
+3. Try running the setup script: `python db/setup_db.py`
 
 ### Connection Issues?
 1. Verify database is running: `docker-compose exec db pg_isready`

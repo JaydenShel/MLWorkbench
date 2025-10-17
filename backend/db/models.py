@@ -1,7 +1,7 @@
 from sqlalchemy import String, Integer, Text, JSON, DateTime, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
-from db import Base
+from db.db import Base
 
 
 class Dataset(Base):

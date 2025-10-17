@@ -34,8 +34,8 @@ def setup_database():
         
         # Import and create tables
         print("Creating tables...")
-        from db import Base
-        from models import Dataset, ModelRun
+        from db.db import Base
+        from db.models import Dataset, ModelRun
         
         Base.metadata.create_all(bind=engine)
         print("Tables created successfully!")

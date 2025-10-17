@@ -9,8 +9,8 @@ from sqlalchemy.orm import Session
 
 from services.storage import Storage
 from services.storage_s3 import S3Storage
-from db import get_db
-from models import Dataset
+from db.db import get_db
+from db.models import Dataset
 
 router = APIRouter(prefix="/datasets", tags=["Datasets"])
 

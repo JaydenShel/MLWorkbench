@@ -10,8 +10,8 @@ from sqlalchemy import text
 # Add the current directory to Python path
 sys.path.append('/app')
 
-from db import engine, Base
-from models import Dataset, ModelRun
+from db.db import engine, Base
+from db.models import Dataset, ModelRun
 
 def create_tables():
     """Create all database tables"""

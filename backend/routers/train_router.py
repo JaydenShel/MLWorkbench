@@ -3,8 +3,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from services.storage import Storage
 from routers.upload_router import get_storage
-from db import get_db
-from models import Dataset, ModelRun
+from db.db import get_db
+from db.models import Dataset, ModelRun
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
